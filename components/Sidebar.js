@@ -10,7 +10,7 @@ const Sidebar = () => {
             <Image
             src="/assets/img/logo.svg"
             alt="imagen Logotipo"
-            width={300}
+            width={150}
             height={100}
             />
 
