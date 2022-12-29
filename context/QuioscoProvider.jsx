@@ -37,7 +37,7 @@ const QuioscoProvider = ({children})=>{
     const handleChangeModal = () =>{
         setModal(!modal)
     }
-    const handleAgregarpedido = ({ categoriaId,imagen, ...producto}) =>{
+    const handleAgregarpedido = ({ categoriaId, ...producto}) =>{
         if (pedido.some(productoState => productoState.id === producto.id)) {
             const pedidoActualzado = pedido.map(productoState => productoState.id === producto.id ? producto : productoState)
             setPedido(pedidoActualzado)
@@ -50,8 +50,8 @@ const QuioscoProvider = ({children})=>{
         setModal(false)
     }
 
-    const handleChangePaso=(paso)=>{
-        setPaso(paso)
+    const handelEditarCantidades= (id)=>{
+        console.log(id);
     }
 
     return(
@@ -66,8 +66,7 @@ const QuioscoProvider = ({children})=>{
                 handleChangeModal,
                 handleAgregarpedido,
                 pedido,
-                handleChangePaso,
-                paso
+                handelEditarCantidades
             }}
         >
             {children}
