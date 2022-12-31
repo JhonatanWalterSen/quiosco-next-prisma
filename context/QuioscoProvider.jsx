@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
 
 const QuioscoContext = createContext()
 const QuioscoProvider = ({children})=>{
@@ -11,6 +12,10 @@ const QuioscoProvider = ({children})=>{
     const [modal, setModal] = useState(false)
     const [pedido, setPedido] = useState([])
     const [paso, setPaso] = useState(1)
+    const [nombre,setNombre] = useState('')
+    const [total, setTotal] = useState()
+
+    const router = useRouter()
 
     const obtenerCategorias = async() =>{
         const {data} = await axios('/api/categorias')
@@ -25,9 +30,15 @@ const QuioscoProvider = ({children})=>{
         setCategoriaActual(categorias[0])
     },[categorias])
 
+    useEffect(()=>{
+        const nuevoTotal = pedido.reduce((total, producto) =>(producto.precio * producto.cantidad)+total,0)
+        setTotal(nuevoTotal)
+    },[pedido])
+
     const handleClickCategoria= id =>{
         const categoria = categorias.filter(c => c.id === id)
         setCategoriaActual(categoria[0]);
+        router.push('/')
     }
 
     const handleSetProducto = producto =>{
@@ -51,7 +62,19 @@ const QuioscoProvider = ({children})=>{
     }
 
     const handelEditarCantidades= (id)=>{
-        console.log(id);
+        const productoActualizar = pedido.filter( producto => producto.id === id)
+        setProducto(productoActualizar[0])
+        setModal(!modal)
+    }
+    const handleEliminarProducto = (id)=>{
+        const pedidoActualizado = pedido.filter( pedido => producto.id !== id)
+        setProducto(pedidoActualizado)
+        setPedido(pedidoActualizado)
+    }
+
+    const colocarOrden = async (e) =>{
+        e.preventDefault();
+        
     }
 
     return(
@@ -66,7 +89,12 @@ const QuioscoProvider = ({children})=>{
                 handleChangeModal,
                 handleAgregarpedido,
                 pedido,
-                handelEditarCantidades
+                handelEditarCantidades,
+                handleEliminarProducto,
+                nombre,
+                setNombre,
+                colocarOrden,
+                total
             }}
         >
             {children}

@@ -6,7 +6,7 @@ import useQuiosco from '../hooks/useQuiosco';
 
 const ResumenProducto = ({producto}) => {
 
-  const {handelEditarCantidades}=  useQuiosco()
+  const {handelEditarCantidades, handleEliminarProducto}=  useQuiosco()
   return (
     <div className='shadow p-5 mb-3 flex gap-10 items-center'>
       <div className='md:w-1/6'>
@@ -40,6 +40,7 @@ const ResumenProducto = ({producto}) => {
 
         </button>
         <button
+        onClick={()=> handleEliminarProducto(producto.id)}
           type='button'
           className='uppercase bg-red-700 text-white font-bold flex gap-2 py-2 rounded px-5 shadow-md w-full mt-5'
         >
